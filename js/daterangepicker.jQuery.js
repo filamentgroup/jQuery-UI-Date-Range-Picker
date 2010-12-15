@@ -9,7 +9,8 @@
  * Dual licensed under the MIT (filamentgroup.com/examples/mit-license.txt) and GPL (filamentgroup.com/examples/gpl-license.txt) licenses.
  *
  * Dependencies: jquery, jquery UI datepicker, date.js, jQuery UI CSS Framework
-
+ 
+ *  12.15.2010 Made some fixes to resolve breaking changes introduced by jQuery UI 1.8.7
  * --------------------------------------------------------------------
  */
 jQuery.fn.daterangepicker = function(settings){
@@ -210,6 +211,7 @@ jQuery.fn.daterangepicker = function(settings){
 	function clickActions(el, rp, rpPickers, doneBtn){
 		
 		if(el.is('.ui-daterangepicker-specificDate')){
+			//Specific Date (show the "start" calendar)
 			doneBtn.hide();
 			rpPickers.show();
 			rp.find('.title-start').text( options.presets.specificDate );
@@ -218,6 +220,7 @@ jQuery.fn.daterangepicker = function(settings){
 			setTimeout(function(){doneBtn.fadeIn();}, 400);
 		}
 		else if(el.is('.ui-daterangepicker-allDatesBefore')){
+			//All dates before specific date (show the "end" calendar and set the "start" calendar to the earliest date)
 			doneBtn.hide();
 			rpPickers.show();
 			rp.find('.title-end').text( options.presets.allDatesBefore );
@@ -226,6 +229,7 @@ jQuery.fn.daterangepicker = function(settings){
 			setTimeout(function(){doneBtn.fadeIn();}, 400);
 		}
 		else if(el.is('.ui-daterangepicker-allDatesAfter')){
+			//All dates after specific date (show the "start" calendar and set the "end" calendar to the latest date)
 			doneBtn.hide();
 			rpPickers.show();
 			rp.find('.title-start').text( options.presets.allDatesAfter );
@@ -234,6 +238,7 @@ jQuery.fn.daterangepicker = function(settings){
 			setTimeout(function(){doneBtn.fadeIn();}, 400);
 		}
 		else if(el.is('.ui-daterangepicker-dateRange')){
+			//Specific Date range (show both calendars)
 			doneBtn.hide();
 			rpPickers.show();
 			rp.find('.title-start').text(options.rangeStartTitle);
@@ -243,7 +248,7 @@ jQuery.fn.daterangepicker = function(settings){
 			setTimeout(function(){doneBtn.fadeIn();}, 400);
 		}
 		else {
-			//custom date range
+			//custom date range specified in the options (no calendars shown)
 			doneBtn.hide();
 			rp.find('.range-start, .range-end').css('opacity',0).hide(400, function(){
 				rpPickers.hide();
@@ -308,6 +313,9 @@ jQuery.fn.daterangepicker = function(settings){
 	rpPickers.hide().find('.range-start, .range-end, .btnDone').hide();
 	
 	rp.data('state', 'closed');
+	
+	//Fixed for jQuery UI 1.8.7 - Calendars are hidden otherwise!
+	rpPickers.find('.ui-datepicker').css("display","block");
 	
 	//inject rp
 	jQuery(options.appendTo).append(rp);
