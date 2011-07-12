@@ -243,8 +243,8 @@ jQuery.fn.daterangepicker = function(settings){
 			rpPickers.show();
 			rp.find('.title-start').text(options.rangeStartTitle);
 			rp.find('.title-end').text(options.rangeEndTitle);
-			rp.find('.range-start').restoreDateFromData().css('opacity',1).show(400);
-			rp.find('.range-end').restoreDateFromData().css('opacity',1).show(400);
+			rp.find('.range-start').restoreDateFromData().datepicker('refresh').css('opacity',1).show(400);
+			rp.find('.range-end').restoreDateFromData().datepicker('refresh').css('opacity',1).show(400);
 			setTimeout(function(){doneBtn.fadeIn();}, 400);
 		}
 		else {
@@ -255,8 +255,10 @@ jQuery.fn.daterangepicker = function(settings){
 			});
 			var dateStart = (typeof el.data('dateStart') == 'string') ? Date.parse(el.data('dateStart')) : el.data('dateStart')();
 			var dateEnd = (typeof el.data('dateEnd') == 'string') ? Date.parse(el.data('dateEnd')) : el.data('dateEnd')();
-			rp.find('.range-start').datepicker('setDate', dateStart).find('.ui-datepicker-current-day').trigger('click');
-			rp.find('.range-end').datepicker('setDate', dateEnd).find('.ui-datepicker-current-day').trigger('click');
+			rp.find('.range-start').datepicker('setDate', dateStart);
+			rp.find('.range-end').datepicker('setDate', dateEnd);
+			rp.find('.range-start').datepicker().find('.ui-datepicker-current-day').trigger('click');
+			rp.find('.range-end').datepicker().find('.ui-datepicker-current-day').trigger('click');
 		}
 		
 		return false;
