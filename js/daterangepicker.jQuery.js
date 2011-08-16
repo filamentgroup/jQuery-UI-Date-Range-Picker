@@ -150,7 +150,7 @@ jQuery.fn.daterangepicker = function(settings){
 				
 	//function to format a date string        
 	function fDate(date){
-	   if(!date.getDate()){return '';}
+	   if(!date || !date.getDate()){return '';}
 	   var day = date.getDate();
 	   var month = date.getMonth();
 	   var year = date.getFullYear();
