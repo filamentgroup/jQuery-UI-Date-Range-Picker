@@ -63,15 +63,15 @@ jQuery.fn.daterangepicker = function(settings){
 	//custom datepicker options, extended by options
 	var datepickerOptions = {
 		onSelect: function(dateText, inst) { 
-				if(rp.find('.ui-daterangepicker-specificDate').is('.ui-state-active')){
-					rp.find('.range-end').datepicker('setDate', rp.find('.range-start').datepicker('getDate') ); 
-				}
-				
 				$(this).trigger('constrainOtherPicker');
 				
 				var rangeA = fDate( rp.find('.range-start').datepicker('getDate') );
 				var rangeB = fDate( rp.find('.range-end').datepicker('getDate') );
 				
+				if(rp.find('.ui-daterangepicker-specificDate').is('.ui-state-active')){
+		                    rangeB = rangeA;
+		                }
+
 				//send back to input or inputs
 				if(rangeInput.length == 2){
 					rangeInput.eq(0).val(rangeA);
@@ -150,7 +150,7 @@ jQuery.fn.daterangepicker = function(settings){
 				
 	//function to format a date string        
 	function fDate(date){
-	   if(!date.getDate()){return '';}
+	   if(date == null || !date.getDate()){return '';}
 	   var day = date.getDate();
 	   var month = date.getMonth();
 	   var year = date.getFullYear();
