@@ -1,0 +1,14 @@
+This is a simplified version of the date range picker developed by filammentgroup.
+
+It allows users to select a range date using the faimiliar Jquery Date Picker Control. It is useful 
+when there is only space for one input box for both the from and to dates 
+
+
+The Date Range Picker contains only 2 options 
+1. Specific Date
+2. Clear
+
+Changes done to the Position Function to ensure that it positions itself based on the given AppendTo (Parent) relative to the body of the page.
+
+Extras:
+When used with a  jqgrid... you need to increase the height of the grid on the onOpen event so that the date range picker is visible. 
