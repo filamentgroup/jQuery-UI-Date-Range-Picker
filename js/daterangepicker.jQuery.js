@@ -43,6 +43,7 @@ jQuery.fn.daterangepicker = function(settings){
 		rangeEndTitle: 'End date',
 		nextLinkText: 'Next',
 		prevLinkText: 'Prev',
+		target: rangeInput,
 		doneButtonText: 'Done',
 		earliestDate: Date.parse('-15years'), //earliest date allowed 
 		latestDate: Date.parse('+15years'), //latest date allowed 
