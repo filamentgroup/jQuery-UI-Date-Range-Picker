@@ -40,27 +40,28 @@
 				allDatesBefore: 'All Dates Before',
 				allDatesAfter: 'All Dates After',
 				dateRange: 'Date Range'
-			},
-			rangeStartTitle: 'Start date',
-			rangeEndTitle: 'End date',
-			nextLinkText: 'Next',
-			prevLinkText: 'Prev',
-			doneButtonText: 'Done',
-			earliestDate: Date.parse('-15years'), //earliest date allowed
-			latestDate: Date.parse('+15years'), //latest date allowed
-			constrainDates: false,
-			rangeSplitter: '-', //string to use between dates in single input
-			dateFormat: 'm/d/yy', // date formatting. Available formats: http://docs.jquery.com/UI/Datepicker/%24.datepicker.formatDate
-			closeOnSelect: true, //if a complete selection is made, close the menu
-			arrows: false,
-			appendTo: 'body',
-			onClose: function(){},
-			onOpen: function(){},
-			onChange: function(){},
-			datepickerOptions: null //object containing native UI datepicker API options
-		}, settings);
-
-
+		},
+		rangeStartTitle: 'Start date',
+		rangeEndTitle: 'End date',
+		nextLinkText: 'Next',
+		prevLinkText: 'Prev',
+		target: rangeInput,
+		doneButtonText: 'Done',
+		earliestDate: Date.parse('-15years'), //earliest date allowed 
+		latestDate: Date.parse('+15years'), //latest date allowed 
+		constrainDates: false,
+		rangeSplitter: '-', //string to use between dates in single input
+		dateFormat: 'm/d/yy', // date formatting. Available formats: http://docs.jquery.com/UI/Datepicker/%24.datepicker.formatDate
+		closeOnSelect: true, //if a complete selection is made, close the menu
+		arrows: false,
+		appendTo: 'body',
+		onClose: function(){},
+		onOpen: function(){},
+		onChange: function(){},
+		datepickerOptions: null //object containing native UI datepicker API options
+	}, settings);
+	
+	
 
 		//custom datepicker options, extended by options
 		var datepickerOptions = {
