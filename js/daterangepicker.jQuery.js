@@ -63,36 +63,42 @@
 	
 	
 
-		//custom datepicker options, extended by options
-		var datepickerOptions = {
-			onSelect: function(dateText, inst) {
-					if(rp.find('.ui-daterangepicker-specificDate').is('.ui-state-active')){
-						rp.find('.range-end').datepicker('setDate', rp.find('.range-start').datepicker('getDate') );
-					}
+	//custom datepicker options, extended by options
+	var datepickerOptions = {
+		onSelect: function(dateText, inst) {
+			var range_start = rp.find('.range-start');
+			var range_end = rp.find('.range-end');
+				
+			if(rp.find('.ui-daterangepicker-specificDate').is('.ui-state-active')){
+				range_end.datepicker('setDate', range_start.datepicker('getDate') ); 
+			}
+			
+			$(this).trigger('constrainOtherPicker');
+			
+			var rangeA = fDate( range_start.datepicker('getDate') );
+			var rangeB = fDate( range_end.datepicker('getDate') );
+			
+			//send back to input or inputs
+			if(rangeInput.length == 2){
+				rangeInput.eq(0).val(rangeA);
+				rangeInput.eq(1).val(rangeB);
+			}
+			else{
+				rangeInput.val((rangeA != rangeB) ? rangeA+' '+ options.rangeSplitter +' '+rangeB : rangeA);
+			}
+			//if closeOnSelect is true
+			if(options.closeOnSelect){
+				if(!rp.find('li.ui-state-active').is('.ui-daterangepicker-dateRange') && !rp.is(':animated') ){
+					hideRP();
+				}
 
-					$(this).trigger('constrainOtherPicker');
+				$(this).trigger('constrainOtherPicker');
 
-					var rangeA = fDate( rp.find('.range-start').datepicker('getDate') );
-					var rangeB = fDate( rp.find('.range-end').datepicker('getDate') );
-
-					//send back to input or inputs
-					if(rangeInput.length == 2){
-						rangeInput.eq(0).val(rangeA);
-						rangeInput.eq(1).val(rangeB);
-					}
-					else{
-						rangeInput.val((rangeA != rangeB) ? rangeA+' '+ options.rangeSplitter +' '+rangeB : rangeA);
-					}
-					//if closeOnSelect is true
-					if(options.closeOnSelect){
-						if(!rp.find('li.ui-state-active').is('.ui-daterangepicker-dateRange') && !rp.is(':animated') ){
-							hideRP();
-						}
-					}
-					options.onChange();
-				},
-				defaultDate: +0
-		};
+				options.onChange();
+			}
+		},
+		defaultDate: +0
+	};
 
 		//change event fires both when a calendar is updated or a change event on the input is triggered
 		rangeInput.bind('change', options.onChange);
