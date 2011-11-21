@@ -43,6 +43,7 @@ jQuery.fn.daterangepicker = function(settings){
 		rangeEndTitle: 'End date',
 		nextLinkText: 'Next',
 		prevLinkText: 'Prev',
+		target: rangeInput,
 		doneButtonText: 'Done',
 		earliestDate: Date.parse('-15years'), //earliest date allowed 
 		latestDate: Date.parse('+15years'), //latest date allowed 
@@ -62,15 +63,25 @@ jQuery.fn.daterangepicker = function(settings){
 
 	//custom datepicker options, extended by options
 	var datepickerOptions = {
-		onSelect: function(dateText, inst) { 
+		onSelect: function(dateText, inst) {
+				var range_start = rp.find('.range-start');
+				var range_end = rp.find('.range-end');
+				
 				if(rp.find('.ui-daterangepicker-specificDate').is('.ui-state-active')){
-					rp.find('.range-end').datepicker('setDate', rp.find('.range-start').datepicker('getDate') ); 
+					range_end.datepicker('setDate', range_start.datepicker('getDate') ); 
 				}
 				
 				$(this).trigger('constrainOtherPicker');
 				
-				var rangeA = fDate( rp.find('.range-start').datepicker('getDate') );
-				var rangeB = fDate( rp.find('.range-end').datepicker('getDate') );
+				var rangeA = fDate( range_start.datepicker('getDate') );
+				var rangeB = fDate( range_end.datepicker('getDate') );
+				
+				
+				if($(this).is('.range-start')) {
+					range_end.datepicker('option', 'minDate', rangeA);
+				}else {
+					range_start.datepicker('option', 'maxDate', rangeB);
+				}
 				
 				//send back to input or inputs
 				if(rangeInput.length == 2){
@@ -209,6 +220,8 @@ jQuery.fn.daterangepicker = function(settings){
 					
 	//preset menu click events	
 	function clickActions(el, rp, rpPickers, doneBtn){
+		rp.find('.range-end').datepicker('option', 'minDate', null);
+		rp.find('.range-start').datepicker('option', 'maxDate', null);
 		
 		if(el.is('.ui-daterangepicker-specificDate')){
 			//Specific Date (show the "start" calendar)
