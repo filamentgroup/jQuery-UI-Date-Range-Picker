@@ -76,6 +76,13 @@ jQuery.fn.daterangepicker = function(settings){
 				var rangeA = fDate( range_start.datepicker('getDate') );
 				var rangeB = fDate( range_end.datepicker('getDate') );
 				
+				
+				if($(this).is('.range-start')) {
+					range_end.datepicker('option', 'minDate', rangeA);
+				}else {
+					range_start.datepicker('option', 'maxDate', rangeB);
+				}
+				
 				//send back to input or inputs
 				if(rangeInput.length == 2){
 					rangeInput.eq(0).val(rangeA);
@@ -213,6 +220,8 @@ jQuery.fn.daterangepicker = function(settings){
 					
 	//preset menu click events	
 	function clickActions(el, rp, rpPickers, doneBtn){
+		rp.find('.range-end').datepicker('option', 'minDate', null);
+		rp.find('.range-start').datepicker('option', 'maxDate', null);
 		
 		if(el.is('.ui-daterangepicker-specificDate')){
 			//Specific Date (show the "start" calendar)
