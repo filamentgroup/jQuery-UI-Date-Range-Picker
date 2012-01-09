@@ -100,15 +100,22 @@ jQuery.fn.daterangepicker = function(settings){
 	//Capture Dates from input(s)
 	var inputDateA, inputDateB = Date.parse('today');
 	var inputDateAtemp, inputDateBtemp;
+        var parseDate = function(input) {
+            try {
+                return $.datepicker.parseDate( options.dateFormat, input );
+            } catch (exception) {
+                return null;
+            }
+        }
 	if(rangeInput.size() == 2){
-		inputDateAtemp = Date.parse( rangeInput.eq(0).val() );
-		inputDateBtemp = Date.parse( rangeInput.eq(1).val() );
-		if(inputDateAtemp == null){inputDateAtemp = inputDateBtemp;} 
-		if(inputDateBtemp == null){inputDateBtemp = inputDateAtemp;} 
+		inputDateAtemp = parseDate( rangeInput.eq(0).val() );
+		inputDateBtemp = parseDate( rangeInput.eq(1).val() );
+		if(inputDateAtemp == null){inputDateAtemp = inputDateBtemp;}
+		if(inputDateBtemp == null){inputDateBtemp = inputDateAtemp;}
 	}
 	else {
-		inputDateAtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[0] );
-		inputDateBtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[1] );
+		inputDateAtemp = parseDate( rangeInput.val().split(options.rangeSplitter)[0] );
+		inputDateBtemp = parseDate( rangeInput.val().split(options.rangeSplitter)[1] );
 		if(inputDateBtemp == null){inputDateBtemp = inputDateAtemp;} //if one date, set both
 	}
 	if(inputDateAtemp != null){inputDateA = inputDateAtemp;}
