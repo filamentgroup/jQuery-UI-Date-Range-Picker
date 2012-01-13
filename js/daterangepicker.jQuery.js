@@ -44,8 +44,8 @@ jQuery.fn.daterangepicker = function(settings){
 		nextLinkText: 'Next',
 		prevLinkText: 'Prev',
 		doneButtonText: 'Done',
-		earliestDate: Date.parse('-15years'), //earliest date allowed 
-		latestDate: Date.parse('+15years'), //latest date allowed 
+		earliestDate: 'last year', //earliest date allowed 
+		latestDate: 'next year', //latest date allowed 
 		constrainDates: false,
 		rangeSplitter: '-', //string to use between dates in single input
 		dateFormat: 'm/d/yy', // date formatting. Available formats: http://docs.jquery.com/UI/Datepicker/%24.datepicker.formatDate
@@ -55,6 +55,8 @@ jQuery.fn.daterangepicker = function(settings){
 		onClose: function(){},
 		onOpen: function(){},
 		onChange: function(){},
+		onNext: function() {},
+		onPrevious: function() {},
 		datepickerOptions: null //object containing native UI datepicker API options
 	}, settings);
 	
@@ -243,6 +245,8 @@ jQuery.fn.daterangepicker = function(settings){
 			rpPickers.show();
 			rp.find('.title-start').text(options.rangeStartTitle);
 			rp.find('.title-end').text(options.rangeEndTitle);
+			
+			
 			rp.find('.range-start').restoreDateFromData().css('opacity',1).show(400);
 			rp.find('.range-end').restoreDateFromData().css('opacity',1).show(400);
 			setTimeout(function(){doneBtn.fadeIn();}, 400);
@@ -259,6 +263,10 @@ jQuery.fn.daterangepicker = function(settings){
 			rp.find('.range-end').datepicker('setDate', dateEnd).find('.ui-datepicker-current-day').trigger('click');
 		}
 		
+		rp.find('.range-start').datepicker( "option", "minDate", Date.parse(options.earliestDate));
+		rp.find('.range-start').datepicker( "option", "maxDate", Date.parse(options.latestDate));
+		rp.find('.range-end').datepicker( "option", "minDate", Date.parse(options.earliestDate));
+		rp.find('.range-end').datepicker( "option", "maxDate", Date.parse(options.latestDate));
 		return false;
 	}	
 	
@@ -336,7 +344,13 @@ jQuery.fn.daterangepicker = function(settings){
 		.parent().find('a').click(function(){
 			var dateA = rpPickers.find('.range-start').datepicker('getDate');
 			var dateB = rpPickers.find('.range-end').datepicker('getDate');
-			var diff = Math.abs( new TimeSpan(dateA - dateB).getTotalMilliseconds() ) + 86400000; //difference plus one day
+			
+			var diff = Math.abs( new TimeSpan(dateA - dateB).getTotalMilliseconds() ) ; //difference got rid of "plus one day"
+			if (diff == 0)
+			{
+				diff = 1000 * 60 * 60 * 24;	// One day in MS...
+			}
+			
 			if(jQuery(this).is('.ui-daterangepicker-prev')){ diff = -diff; }
 			
 			rpPickers.find('.range-start, .range-end ').each(function(){
@@ -344,6 +358,17 @@ jQuery.fn.daterangepicker = function(settings){
 					if(thisDate == null){return false;}
 					jQuery(this).datepicker( "setDate", thisDate.add({milliseconds: diff}) ).find('.ui-datepicker-current-day').trigger('click');
 			});
+			
+			
+            if(jQuery(this).is('.ui-daterangepicker-prev'))
+            {
+                options.onNext();
+            }
+            else
+            { 
+                options.onPrevious();
+            }
+
 			return false;
 		})
 		.hover(
@@ -367,6 +392,7 @@ jQuery.fn.daterangepicker = function(settings){
 	rp.click(function(){return false;}).hide();
 	return this;
 }
+
 
 
 
