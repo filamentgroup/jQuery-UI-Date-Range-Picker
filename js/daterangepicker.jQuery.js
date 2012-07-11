@@ -120,7 +120,7 @@ jQuery.fn.daterangepicker = function(settings){
 	var rpPresets = (function(){
 		var ul = jQuery('<ul class="ui-widget-content"></ul>').appendTo(rp);
 		jQuery.each(options.presetRanges,function(){
-			jQuery('<li class="ui-daterangepicker-'+ this.text.replace(/ /g, '') +' ui-corner-all"><a href="#">'+ this.text +'</a></li>')
+			jQuery('<li class="ui-daterangepicker-'+ $(this).text().replace('/\u0020/g', '')+' ui-corner-all"><a href="#">'+ this.text +'</a></li>')
 			.data('dateStart', this.dateStart)
 			.data('dateEnd', this.dateEnd)
 			.appendTo(ul);
