@@ -88,7 +88,9 @@ jQuery.fn.daterangepicker = function(settings){
 				}	
 				options.onChange();			
 			},
-			defaultDate: +0
+			defaultDate: +0,
+			minDate: options.earliestDate,
+			maxDate: options.latestDate
 	};
 	
 	//change event fires both when a calendar is updated or a change event on the input is triggered
