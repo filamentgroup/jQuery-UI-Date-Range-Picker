@@ -213,6 +213,11 @@
                             doneBtn.fadeIn();
                         }, 400);
 
+                        // If chosen is available, chosen-ify the select boxes
+                        if ($().chosen !== undefined) {
+                            $().chosen.bind();
+                        }
+
                         return false;
                     }
                 }
@@ -416,11 +421,6 @@
 
                 // Update the input box with the default values
                 options.onUpdate();
-
-                // If chosen is available, chosen-ify the select boxes
-                if ($().chosen !== undefined) {
-                    $().chosen.bind();
-                }
             };
 
             /**
