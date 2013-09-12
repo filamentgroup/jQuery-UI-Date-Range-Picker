@@ -199,7 +199,7 @@
                 function showRP() {
                     if (rp.data('state') == 'closed') {
                         positionRP();
-                        rp.fadeIn(300).data('state', 'open');
+                        rp.fadeIn().data('state', 'open');
                         options.onOpen();
 
                         //Specific Date range (show both calendars)
@@ -207,11 +207,9 @@
                         rpPickers.show();
                         rp.find('.title-start').text(options.rangeStartTitle);
                         rp.find('.title-end').text(options.rangeEndTitle);
-                        rp.find('.range-start').restoreDateFromData().datepicker('refresh').css('opacity',1).show(400);
-                        rp.find('.range-end').restoreDateFromData().datepicker('refresh').css('opacity',1).show(400);
-                        setTimeout(function() {
-                            doneBtn.fadeIn();
-                        }, 400);
+                        rp.find('.range-start').restoreDateFromData().datepicker('refresh').css('opacity',1).show();
+                        rp.find('.range-end').restoreDateFromData().datepicker('refresh').css('opacity',1).show();
+                        doneBtn.fadeIn();
 
                         // If chosen is available, chosen-ify the select boxes
                         if ($().chosen !== undefined) {
@@ -224,7 +222,7 @@
 
                 function hideRP(noTrigger) {
                     if (rp.data('state') == 'open') {
-                        rp.fadeOut(300).data('state', 'closed');
+                        rp.fadeOut().data('state', 'closed');
 
                         if (_.isUndefined(noTrigger)) {
                             options.onClose();
