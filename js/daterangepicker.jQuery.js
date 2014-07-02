@@ -13,6 +13,7 @@
 	 * Dependencies: jquery, jquery UI datepicker, date.js, jQuery UI CSS Framework
 
 	 *  12.15.2010 Made some fixes to resolve breaking changes introduced by jQuery UI 1.8.7
+	 *  07.01.2014 Added support for alternate / target input form elements to get/set date range data 
 	 * --------------------------------------------------------------------
 	 */
 	$.fn.daterangepicker = function(settings){
