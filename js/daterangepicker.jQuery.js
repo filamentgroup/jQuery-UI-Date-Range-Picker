@@ -13,8 +13,9 @@
 	 * Dependencies: jquery, jquery UI datepicker, date.js, jQuery UI CSS Framework
 
 	 *  12.15.2010 Made some fixes to resolve breaking changes introduced by jQuery UI 1.8.7
-	 *  07.01.2014 Added support for alternate / target input form elements to get/set date range data 
-	 *  07.01.2014 Send date range data to onChange callback function
+	 *  --- Forked to https://github.com/Traackr/jQuery-UI-Date-Range-Picker ---
+	 *  07.01.2014 Added support for alternate / target input form elements to get/set date range data (PK)
+	 *  07.01.2014 Send date range data to onChange callback function (PK)
 	 * --------------------------------------------------------------------
 	 */
 	$.fn.daterangepicker = function(settings){
