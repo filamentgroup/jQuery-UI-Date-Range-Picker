@@ -58,10 +58,12 @@
 		onClose: function(){},
 		onOpen: function(){},
 		onChange: function(){},
+		targetFormElement : null, // useful if the date picker itself is not a form element, where the value of the date picker goes
 		datepickerOptions: null //object containing native UI datepicker API options
 	}, settings);
 	
 	
+	var targetFormElement = $(options.targetFormElement); // jQuery elem for target form element
 
 	//custom datepicker options, extended by options
 	var datepickerOptions = {
@@ -84,7 +86,12 @@
 				rangeInput.eq(1).val(rangeB);
 			}
 			else{
-				rangeInput.val((rangeA != rangeB) ? rangeA+' '+ options.rangeSplitter +' '+rangeB : rangeA);
+				var rangeValue = (rangeA != rangeB) ? rangeA+' '+ options.rangeSplitter +' '+rangeB : rangeA;
+				rangeInput.val(rangeValue);
+				// Set value of any other target input or form element
+				if (targetFormElement.length) {
+					targetFormElement.val(rangeValue);
+				}
 			}
 			//if closeOnSelect is true
 			if(options.closeOnSelect){
@@ -116,8 +123,13 @@
 			if(inputDateBtemp == null){inputDateBtemp = inputDateAtemp;}
 		}
 		else {
-			inputDateAtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[0] );
-			inputDateBtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[1] );
+			if (targetFormElement.length)  {
+				inputDateAtemp = Date.parse( targetFormElement.val().split(options.rangeSplitter)[0] );
+				inputDateBtemp = Date.parse( targetFormElement.val().split(options.rangeSplitter)[1] );
+			} else {
+				inputDateAtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[0] );
+				inputDateBtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[1] );				
+			}
 			if(inputDateBtemp == null){inputDateBtemp = inputDateAtemp;} //if one date, set both
 		}
 		if(inputDateAtemp != null){inputDateA = inputDateAtemp;}
