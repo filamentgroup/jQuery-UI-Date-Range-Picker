@@ -14,6 +14,7 @@
 
 	 *  12.15.2010 Made some fixes to resolve breaking changes introduced by jQuery UI 1.8.7
 	 *  07.01.2014 Added support for alternate / target input form elements to get/set date range data 
+	 *  07.01.2014 Send date range data to onChange callback function
 	 * --------------------------------------------------------------------
 	 */
 	$.fn.daterangepicker = function(settings){
@@ -101,8 +102,8 @@
 				}
 
 				$(this).trigger('constrainOtherPicker');
-
-				options.onChange();
+				// Send range data in callback method
+				options.onChange([rangeA, rangeB]);
 			}
 		},
 		defaultDate: +0
