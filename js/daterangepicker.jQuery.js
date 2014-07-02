@@ -104,7 +104,7 @@
 
 				$(this).trigger('constrainOtherPicker');
 				// Send range data in callback method
-				options.onChange([rangeA, rangeB]);
+				options.onChange((rangeA != rangeB) ? [rangeA, rangeB] : [rangeA]);
 			}
 		},
 		defaultDate: +0
@@ -126,13 +126,14 @@
 			if(inputDateBtemp == null){inputDateBtemp = inputDateAtemp;}
 		}
 		else {
+			inputDateAtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[0] );
+			inputDateBtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[1] );	
+			
+			// If the target form element is set, use that instead	
 			if (targetFormElement.length)  {
 				inputDateAtemp = Date.parse( targetFormElement.val().split(options.rangeSplitter)[0] );
 				inputDateBtemp = Date.parse( targetFormElement.val().split(options.rangeSplitter)[1] );
-			} else {
-				inputDateAtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[0] );
-				inputDateBtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[1] );				
-			}
+			} 					
 			if(inputDateBtemp == null){inputDateBtemp = inputDateAtemp;} //if one date, set both
 		}
 		if(inputDateAtemp != null){inputDateA = inputDateAtemp;}
