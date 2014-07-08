@@ -359,7 +359,7 @@
                     '<div class="error ui-state-error ui-corner-all ui-helper-clearfix" style="display: none">' +
                         '<p>' +
                             '<span class="ui-icon ui-icon-alert"></span>' +
-                            '<strong>Error:</strong>Start date cannot be before end date' +
+                            '<strong>Error:</strong>End date cannot be earlier than the start date' +
                         '</p>' +
                     '</div>')
                     .appendTo(rpPickers);
