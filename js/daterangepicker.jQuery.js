@@ -16,6 +16,7 @@
 	 *  --- Forked to https://github.com/Traackr/jQuery-UI-Date-Range-Picker ---
 	 *  07.01.2014 Added support for alternate / target input form elements to get/set date range data (PK)
 	 *  07.01.2014 Send date range data to onChange callback function (PK)
+	 *  03.13.2015 Create option for custom ui-widget classname (PK)
 	 * --------------------------------------------------------------------
 	 */
 	$.fn.daterangepicker = function(settings){
