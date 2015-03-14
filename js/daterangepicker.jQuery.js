@@ -58,6 +58,7 @@
 		closeOnSelect: true, //if a complete selection is made, close the menu
 		arrows: false,
 		appendTo: 'body',
+		className : null,
 		onClose: function(){},
 		onOpen: function(){},
 		onChange: function(){},
@@ -142,6 +143,10 @@
 
 		//build picker and
 		var rp = $('<div class="ui-daterangepicker ui-widget ui-helper-clearfix ui-widget-content ui-corner-all"></div>');
+		// If className option specified, apply on the main ui-widget element
+		if (options.className && options.className.length) {
+			rp.addClass(options.className);
+		}
 		var rpPresets = (function(){
 			var ul = $('<ul class="ui-widget-content"></ul>').appendTo(rp);
 			$.each(options.presetRanges,function(){
