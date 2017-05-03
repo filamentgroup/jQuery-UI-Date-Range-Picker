@@ -211,7 +211,7 @@
 				side = 'right', val =  offRight;
 			}
 
-			rp.parent().css(side, val).css('top', riOffset.top + relEl.outerHeight());
+			rp.parent().css(side, val).css('top', riOffset.top + relEl.outerHeight(true));
 		}
 
 
