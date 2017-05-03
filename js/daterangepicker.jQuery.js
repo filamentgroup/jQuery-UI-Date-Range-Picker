@@ -13,6 +13,10 @@
 	 * Dependencies: jquery, jquery UI datepicker, date.js, jQuery UI CSS Framework
 
 	 *  12.15.2010 Made some fixes to resolve breaking changes introduced by jQuery UI 1.8.7
+	 *  --- Forked to https://github.com/Traackr/jQuery-UI-Date-Range-Picker ---
+	 *  07.01.2014 Added support for alternate / target input form elements to get/set date range data (PK)
+	 *  07.01.2014 Send date range data to onChange callback function (PK)
+	 *  03.13.2015 Create option for custom ui-widget classname (PK)
 	 * --------------------------------------------------------------------
 	 */
 	$.fn.daterangepicker = function(settings){
@@ -55,13 +59,16 @@
 		closeOnSelect: true, //if a complete selection is made, close the menu
 		arrows: false,
 		appendTo: 'body',
+		className : null,
 		onClose: function(){},
 		onOpen: function(){},
 		onChange: function(){},
+		targetFormElement : null, // useful if the date picker itself is not a form element, where the value of the date picker goes
 		datepickerOptions: null //object containing native UI datepicker API options
 	}, settings);
 	
 	
+	var targetFormElement = $(options.targetFormElement); // jQuery elem for target form element
 
 	//custom datepicker options, extended by options
 	var datepickerOptions = {
@@ -84,7 +91,12 @@
 				rangeInput.eq(1).val(rangeB);
 			}
 			else{
-				rangeInput.val((rangeA != rangeB) ? rangeA+' '+ options.rangeSplitter +' '+rangeB : rangeA);
+				var rangeValue = (rangeA != rangeB) ? rangeA+' '+ options.rangeSplitter +' '+rangeB : rangeA;
+				rangeInput.val(rangeValue);
+				// Set value of any other target input or form element
+				if (targetFormElement.length) {
+					targetFormElement.val(rangeValue);
+				}
 			}
 			//if closeOnSelect is true
 			if(options.closeOnSelect){
@@ -93,8 +105,8 @@
 				}
 
 				$(this).trigger('constrainOtherPicker');
-
-				options.onChange();
+				// Send range data in callback method
+				options.onChange((rangeA != rangeB) ? [rangeA, rangeB] : [rangeA]);
 			}
 		},
 		defaultDate: +0
@@ -117,7 +129,13 @@
 		}
 		else {
 			inputDateAtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[0] );
-			inputDateBtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[1] );
+			inputDateBtemp = Date.parse( rangeInput.val().split(options.rangeSplitter)[1] );	
+			
+			// If the target form element is set, use that instead	
+			if (targetFormElement.length)  {
+				inputDateAtemp = Date.parse( targetFormElement.val().split(options.rangeSplitter)[0] );
+				inputDateBtemp = Date.parse( targetFormElement.val().split(options.rangeSplitter)[1] );
+			} 					
 			if(inputDateBtemp == null){inputDateBtemp = inputDateAtemp;} //if one date, set both
 		}
 		if(inputDateAtemp != null){inputDateA = inputDateAtemp;}
@@ -126,6 +144,10 @@
 
 		//build picker and
 		var rp = $('<div class="ui-daterangepicker ui-widget ui-helper-clearfix ui-widget-content ui-corner-all"></div>');
+		// If className option specified, apply on the main ui-widget element
+		if (options.className && options.className.length) {
+			rp.addClass(options.className);
+		}
 		var rpPresets = (function(){
 			var ul = $('<ul class="ui-widget-content"></ul>').appendTo(rp);
 			$.each(options.presetRanges,function(){
